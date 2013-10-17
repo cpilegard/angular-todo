@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="todo.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+
+  <script>
+
+    var todoApp = angular.module('todoApp', []);
+
+    function TodoController($scope) {
+      $scope.data = {};
+      $scope.data.todoList = [];
+
+      $scope.addTodo = function() {
+        $scope.data.todoList.push({ text: $scope.data.text, done: false});
+        document.getElementById("todo-input").value = '';
+      }
+
+      $scope.toggleComplete = function($event, todoItem) {
+        todoItem.done = !todoItem.done;
+      }
+    }
+
+  </script>
+</head>
+
+<body ng-app="todoApp">
+
+  <div ng-controller="TodoController">
+    Add a todo:
+    <form ng-submit="addTodo()">
+      <input id="todo-input" ng-model="data.text">
+    </form>
+    
+    <ul>
+      <li ng-repeat="item in data.todoList" ng-class="{done:item.done}" ng-click="toggleComplete($event, item)">
+        {{item.text}}
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>
