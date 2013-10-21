@@ -20,6 +20,17 @@
       $scope.toggleComplete = function($event, todoItem) {
         todoItem.done = !todoItem.done;
       }
+
+      $scope.sortTodos = function() {
+        var filter = [];
+        if ($scope.sortDone === true) {
+          filter.push('done');
+        }
+        if ($scope.sortAlpha === true) {
+          filter.push('text');
+        }
+        return filter;
+      }
     }
 
   </script>
@@ -32,9 +43,12 @@
     <form ng-submit="addTodo()">
       <input id="todo-input" ng-model="data.text">
     </form>
+
+    Sort by completion:  <input type="checkbox" ng-model="sortDone">
+    Sort alphabetically: <input type="checkbox" ng-model="sortAlpha">
     
     <ul>
-      <li ng-repeat="item in data.todoList" ng-class="{done:item.done}" ng-click="toggleComplete($event, item)">
+      <li ng-repeat="item in data.todoList | orderBy:sortTodos()" ng-class="{done:item.done}" ng-click="toggleComplete($event, item)">
         {{item.text}}
       </li>
     </ul>
